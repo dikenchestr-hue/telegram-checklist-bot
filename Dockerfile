@@ -2,21 +2,20 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-# Установка системных зависимостей для быстродействия
+# Установка системных зависимостей
 RUN apt-get update && apt-get install -y --no-install-recommends \
     gcc \
     && rm -rf /var/lib/apt/lists/*
 
-# Копирование и установка зависимостей
+# Копирование и установка Python зависимостей
 COPY requirements.txt .
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
 # Копирование кода
-COPY bot.py .
-COPY questions/ ./questions/
+COPY . .
 
-# Создание непривилегированного пользователя
+# Создание пользователя без прав root
 RUN useradd -m -u 1000 botuser && chown -R botuser:botuser /app
 USER botuser
 
