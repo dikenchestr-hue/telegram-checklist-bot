@@ -8,6 +8,25 @@ from aiogram.fsm.state import State, StatesGroup
 from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardRemove
 
+# Добавьте в начало файла
+from flask import Flask
+import threading
+
+# Простой Flask сервер для Render
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return "Bot is running!"
+
+def run_flask():
+    app.run(host='0.0.0.0', port=10000)
+
+# Запустите Flask в отдельном потоке перед запуском бота
+threading.Thread(target=run_flask, daemon=True).start()
+
+
+
 # ===== НАСТРОЙКИ =====
 BOT_TOKEN = os.environ.get('BOT_TOKEN')
 # =====================
@@ -1146,3 +1165,4 @@ async def main():
 if __name__ == "__main__":
 
     asyncio.run(main())
+
