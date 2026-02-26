@@ -1,14 +1,24 @@
-FROM python:3.11-alpine
+FROM python:3.11-slim
 
 WORKDIR /app
 
-# Установка зависимостей
+# Установка системных зависимостей для быстродействия
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc \
+    && rm -rf /var/lib/apt/lists/*
+
+# Копирование и установка зависимостей
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
 
 # Копирование кода
 COPY bot.py .
 COPY questions/ ./questions/
+
+# Создание непривилегированного пользователя
+RUN useradd -m -u 1000 botuser && chown -R botuser:botuser /app
+USER botuser
 
 # Healthcheck
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s \
