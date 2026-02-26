@@ -2,3 +2,7 @@ aiogram==3.17.0
 flask==2.3.3
 gunicorn==21.2.0
 python-dotenv==1.0.0
+redis==5.2.1
+ujson==5.10.0
+orjson==3.10.15
+psutil==6.1.1
