@@ -1,5 +1,6 @@
 import logging
 import asyncio
+import os
 from aiogram import Bot, Dispatcher, types
 from aiogram.filters import CommandStart, Command
 from aiogram.fsm.context import FSMContext
@@ -8,7 +9,7 @@ from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardRemove
 
 # ===== НАСТРОЙКИ =====
-BOT_TOKEN = "7597895675:AAFDY_sPvT6L1gTQZay1Ia-_EV3WZHREnDc"
+BOT_TOKEN = os.environ.get('BOT_TOKEN')
 # =====================
 
 logging.basicConfig(level=logging.INFO)
@@ -1143,4 +1144,5 @@ async def main():
     await dp.start_polling(bot)
 
 if __name__ == "__main__":
+
     asyncio.run(main())
